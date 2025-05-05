@@ -1,0 +1,25 @@
+view,swiper,swiper-item{
+	//  盒子模型计算方式border-box不会额外增加 元素大小
+	// padding和border不会影响元素大小
+	// padding是内填充
+	 box-sizing: border-box;
+	 
+}
+.pageBg{
+	// 页面背景-红到绿渐变横向渐变且下面是白色
+	background: 
+	linear-gradient(to bottom,transparent,#fff 400rpx),
+	linear-gradient(to right, #beecd8,20%, #F4E2D8);
+	min-height: 100vh;//100% 的视窗高度（即整个屏幕高度）。
+}
+
+// 加载中
+.loadingLayout{
+	padding: 30rpx 0;
+}
+
+.safe-area-inset-bottom{
+	height: env(safe-area-inset-bottom);//底边栏高度
+}
+
+	

@@ -1,0 +1,1 @@
+{"version":3,"file":"User.js","sources":["../../HBuilderX/plugins/uniapp-cli-vite/uniPage:/cGFnZXMvVXNlci9Vc2VyLnZ1ZQ"],"sourcesContent":["import MiniProgramPage from 'E:/uni-app练手/幻彩壁纸/pages/User/User.vue'\nwx.createPage(MiniProgramPage)"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AACA,GAAG,WAAW,eAAe;"}
