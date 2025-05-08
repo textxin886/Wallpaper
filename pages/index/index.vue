@@ -86,12 +86,35 @@
 
 <script setup>
 import { ref } from 'vue';
+import {onShareAppMessage,onShareTimeline} from "@dcloudio/uni-app"
 import { apiGetBanner, apigetDayRandom, apiGetNotice, apigetClassify } from '@/api/apis.js';
 
 const bennerList = ref([]);
 const randomList = ref([]);
 const noticeList = ref([]);
 const classifyList = ref([]);
+
+//分享给好友
+onShareAppMessage((e) => {
+	console.log(e);
+	return {
+		title: '分享给好友',
+		path: '/pages/index/index',
+	}
+})
+//分享到朋友圈
+onShareTimeline(() => {
+  return { title: '微信朋友圈分享' };
+});
+
+
+
+
+
+
+
+
+
 
 // axios 不直接支持小程序，需要使用uni.request
 // 获取benner
@@ -104,6 +127,7 @@ const getBanner = async () => {
 const getDayRandom = async () => {
 	let res = await apigetDayRandom();
 	randomList.value = res.data.data;
+	// console.log(randomList.value);
 };
 
 // 公告
@@ -126,8 +150,9 @@ getClassify();
 
 // <!-- 点击跳转到预览页面 -->
 const goPreview = () => {
-	uni.navigateTo({
-		url: '/pages/preView/preView'
+	uni.switchTab({
+		url: '/pages/classify/classify',
+		
 	});
 };
 </script>

@@ -1,13 +1,13 @@
 <template>
-	<view class="userLayout pageBg">
-		<custom-nav-bar title="我的"></custom-nav-bar>
+	<view class="userLayout pageBg" v-if="userInfo">
+		<view class="statusBar" :style="{height:getnavBarHright()+'px'}"></view>
 		<view class="userInfo">
 			<!-- 用户中心 -->
 			<view class="avatar">
 				<image src="/static/image/xxmLogo.png" mode="aspectFill"></image>
 			</view>
-			<view class="ip">我的昵称</view>
-			<view class="addrees">来自于：郑州</view>
+			<view class="ip">我的IP:{{userInfo.IP}}</view>
+			<view class="addrees">来自于：{{userInfo.address.province}}</view>
 		</view>
 		<!-- <button open-type="contact">联系客服</button> -->
 		<!-- 菜单1 -->
@@ -23,7 +23,7 @@
 					</view>
 					<view class="right">
 						<!-- 下载量 -->
-						<view class="text">0</view>
+						<view class="text">{{userInfo.downloadSize}}</view>
 						<uni-icons type="right" size="20" color="#aaa"></uni-icons>
 					</view>
 					
@@ -39,7 +39,7 @@
 					</view>
 					<view class="right">	
 						<!-- 评分量 -->
-						<view class="text">2</view>
+						<view class="text">0</view>
 						<uni-icons type="right" size="20" color="#aaa"></uni-icons>
 					</view>
 					
@@ -95,7 +95,24 @@
 	</view>
 </template>
 
-<script setup></script>
+<script setup>
+import {getnavBarHright} from "@/utils/sytem.js"
+import {apiUserInfo} from "@/api/apis.js"
+import { ref } from "vue";
+const userInfo = ref(null)
+
+const getUserInfo = () => {
+  apiUserInfo()
+    .then(res => {
+      console.log(res);
+	  userInfo.value = res.data.data
+    })
+
+};
+
+getUserInfo()
+	
+</script>
 
 <style lang="scss" scoped>
 // 用户中心

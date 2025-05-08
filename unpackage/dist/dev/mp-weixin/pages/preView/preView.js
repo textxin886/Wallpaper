@@ -1,6 +1,5 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const common_assets = require("../../common/assets.js");
 const utils_sytem = require("../../utils/sytem.js");
 if (!Array) {
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
@@ -23,6 +22,31 @@ const _sfc_main = {
     const infoPopup = common_vendor.ref(null);
     const scorePopup = common_vendor.ref(null);
     const userScore = common_vendor.ref(0);
+    const classList = common_vendor.ref([]);
+    const currentId = common_vendor.ref(0);
+    const currentIndex = common_vendor.ref(0);
+    const currentInfo = common_vendor.ref(0);
+    const storgClassList = common_vendor.index.getStorageSync("storgClassList") || [];
+    classList.value = storgClassList.map((item) => {
+      return {
+        //返回一个新数组
+        ...item,
+        //结构数据，将item的数据都放到新数组中，并插入picurl
+        picurl: item.smallPicurl.replace("_small.webp", ".jpg")
+        //替换small为big
+      };
+    });
+    common_vendor.onLoad((e) => {
+      currentId.value = e.id;
+      currentIndex.value = classList.value.findIndex((item) => {
+        return item._id == currentId.value;
+      });
+      currentInfo.value = classList.value[currentIndex.value];
+    });
+    const swiperChenge = (e) => {
+      currentIndex.value = e.detail.current;
+      currentInfo.value = classList.value[currentIndex.value];
+    };
     const maskChange = () => {
       mackState.value = !mackState.value;
     };
@@ -47,89 +71,159 @@ const _sfc_main = {
     const goBack = () => {
       common_vendor.index.navigateBack();
     };
+    const clickDownilad = () => {
+      common_vendor.index.getImageInfo({
+        //获取图片信息和临时地址
+        src: currentInfo.value.picurl,
+        success(res) {
+          common_vendor.index.saveImageToPhotosAlbum({
+            filePath: res.path,
+            success: (res2) => {
+              common_vendor.index.showToast({
+                title: "保存成功"
+              });
+            },
+            fail: (err) => {
+              if (err.errMsg === "saveImageToPhotosAlbum:fail auth deny") {
+                common_vendor.index.showModal({
+                  title: "授权",
+                  content: "请开启保存图片到相册权限",
+                  success: (res2) => {
+                    if (res2.confirm) {
+                      common_vendor.index.openSetting({
+                        //手动开启
+                        success: (res3) => {
+                          common_vendor.index.__f__("log", "at pages/preView/preView.vue:246", res3);
+                          if (res3.authSetting["scope.writePhotosAlbum"]) {
+                            common_vendor.index.getImageInfo({
+                              src: currentInfo.value.picurl,
+                              success: (res4) => {
+                                common_vendor.index.saveImageToPhotosAlbum({
+                                  filePath: res4.path,
+                                  success: () => {
+                                    common_vendor.index.showToast({
+                                      title: "保存成功"
+                                    });
+                                  }
+                                });
+                              }
+                            });
+                          }
+                        }
+                      });
+                    }
+                  }
+                });
+              }
+            }
+          });
+        }
+      });
+    };
     return (_ctx, _cache) => {
-      return {
-        a: common_vendor.f(5, (item, index, i0) => {
-          return {
-            a: common_vendor.o(maskChange, index),
-            b: index
-          };
+      return common_vendor.e({
+        a: currentInfo.value
+      }, currentInfo.value ? {
+        b: common_vendor.f(classList.value, (item, index, i0) => {
+          return common_vendor.e({
+            a: Math.abs(index - currentIndex.value) <= 1
+          }, Math.abs(index - currentIndex.value) <= 1 ? {
+            b: common_vendor.o(maskChange, item._id),
+            c: item.picurl
+          } : {}, {
+            d: item._id
+          });
         }),
-        b: common_assets._imports_0$1,
-        c: common_vendor.p({
+        c: currentIndex.value,
+        d: common_vendor.o(swiperChenge),
+        e: common_vendor.p({
           type: "back",
           color: "#fff",
           size: "20"
         }),
-        d: common_vendor.o(goBack),
-        e: common_vendor.unref(utils_sytem.getstatusBarHeight)() + "px",
-        f: common_vendor.p({
+        f: common_vendor.o(goBack),
+        g: common_vendor.unref(utils_sytem.getstatusBarHeight)() + "px",
+        h: common_vendor.t(currentIndex.value + 1),
+        i: common_vendor.t(classList.value.length),
+        j: common_vendor.p({
           date: /* @__PURE__ */ new Date(),
           format: "hh:mm"
         }),
-        g: common_vendor.p({
+        k: common_vendor.p({
           date: /* @__PURE__ */ new Date(),
           format: "MM月dd日"
         }),
-        h: common_vendor.p({
+        l: common_vendor.p({
           type: "info",
           size: "30"
         }),
-        i: common_vendor.o(clickInfo),
-        j: common_vendor.p({
+        m: common_vendor.o(clickInfo),
+        n: common_vendor.p({
           type: "star",
           size: "28"
         }),
-        k: common_vendor.o(clicksScore),
-        l: common_vendor.p({
+        o: common_vendor.t(currentInfo.value.score),
+        p: common_vendor.o(clicksScore),
+        q: common_vendor.p({
           type: "download",
           size: "28"
         }),
-        m: mackState.value,
-        n: common_vendor.p({
+        r: common_vendor.o(clickDownilad),
+        s: mackState.value,
+        t: common_vendor.p({
           type: "closeempty",
           size: "30"
         }),
-        o: common_vendor.o(clickinfoclose),
-        p: common_vendor.p({
+        v: common_vendor.o(clickinfoclose),
+        w: common_vendor.t(currentInfo.value._id),
+        x: common_vendor.t(currentInfo.value.nickname),
+        y: common_vendor.p({
           readonly: true,
           touchable: true,
-          value: "3",
+          value: currentInfo.value.score,
           size: "16"
         }),
-        q: common_vendor.sr(infoPopup, "18cea5aa-6", {
+        z: common_vendor.t(currentInfo.value.score),
+        A: common_vendor.t(currentInfo.value.description),
+        B: common_vendor.f(currentInfo.value.tabs, (items, k0, i0) => {
+          return {
+            a: common_vendor.t(items),
+            b: items
+          };
+        }),
+        C: common_vendor.sr(infoPopup, "18cea5aa-6", {
           "k": "infoPopup"
         }),
-        r: common_vendor.p({
+        D: common_vendor.p({
           animation: true,
           ["background-color"]: "#fff",
           type: "bottom",
           ["border-radius"]: "10px 10px 0 0"
         }),
-        s: common_vendor.p({
+        E: common_vendor.p({
           type: "closeempty",
           size: "30"
         }),
-        t: common_vendor.o(clickScoreClose),
-        v: common_vendor.o(_ctx.onChange),
-        w: common_vendor.o(($event) => userScore.value = $event),
-        x: common_vendor.p({
+        F: common_vendor.o(clickScoreClose),
+        G: common_vendor.o(_ctx.onChange),
+        H: common_vendor.o(($event) => userScore.value = $event),
+        I: common_vendor.p({
           ["allow-half"]: true,
           size: "32",
           modelValue: userScore.value
         }),
-        y: common_vendor.t(userScore.value),
-        z: common_vendor.o(submitScore),
-        A: !userScore.value,
-        B: common_vendor.sr(scorePopup, "18cea5aa-9", {
+        J: common_vendor.t(userScore.value),
+        K: common_vendor.o(submitScore),
+        L: !userScore.value,
+        M: common_vendor.sr(scorePopup, "18cea5aa-9", {
           "k": "scorePopup"
         }),
-        C: common_vendor.p({
+        N: common_vendor.p({
           ["is-mask-click"]: false,
           animation: true,
           ["border-radius"]: "10px 10px 0 0"
         })
-      };
+      } : {});
     };
   }
 };

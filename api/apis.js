@@ -31,3 +31,11 @@ export function apiGetClassList(data) {
 	data
 	})
 }
+
+//用户个人信息
+export function apiUserInfo(data={}) {
+	return request({
+	url:"/userInfo",
+	data
+	})
+}

@@ -200,7 +200,7 @@
   justify-content: center;
 }
 .parView .scorePopup .content .text.data-v-18cea5aa {
-  color: #FFCA3E;
+  color: #ffca3e;
   line-height: 1em;
 }
 .parView .scorePopup .footer.data-v-18cea5aa {

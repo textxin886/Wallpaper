@@ -36,10 +36,10 @@ const _sfc_main = {
     const getClassList = async () => {
       let res = await api_apis.apiGetClassList(querParams);
       classList.value = [...classList.value, ...res.data.data];
-      common_vendor.index.__f__("log", "at pages/classList/classList.vue:58", classList.value);
       if (res.data.data.length < querParams.pageSize) {
         noData.value = true;
       }
+      common_vendor.index.setStorageSync("storgClassList", classList.value);
     };
     return (_ctx, _cache) => {
       return {
@@ -50,7 +50,8 @@ const _sfc_main = {
         c: common_vendor.f(classList.value, (item, k0, i0) => {
           return {
             a: item.smallPicurl,
-            b: item._id
+            b: `/pages/preView/preView?id=${item._id}`,
+            c: item._id
           };
         }),
         d: common_vendor.p({

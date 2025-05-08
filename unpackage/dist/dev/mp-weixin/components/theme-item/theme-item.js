@@ -42,7 +42,7 @@ const _sfc_main = {
       } : {}, {
         f: __props.isMore
       }, __props.isMore ? {
-        g: common_assets._imports_0$2,
+        g: common_assets._imports_0$1,
         h: common_vendor.p({
           type: "more-filled",
           size: "20",

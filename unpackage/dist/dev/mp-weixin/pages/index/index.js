@@ -24,6 +24,16 @@ const _sfc_main = {
     const randomList = common_vendor.ref([]);
     const noticeList = common_vendor.ref([]);
     const classifyList = common_vendor.ref([]);
+    common_vendor.onShareAppMessage((e) => {
+      common_vendor.index.__f__("log", "at pages/index/index.vue:99", e);
+      return {
+        title: "分享给好友",
+        path: "/pages/index/index"
+      };
+    });
+    common_vendor.onShareTimeline(() => {
+      return { title: "微信朋友圈分享" };
+    });
     const getBanner = async () => {
       let res = await api_apis.apiGetBanner();
       bennerList.value = res.data.data;
@@ -47,8 +57,8 @@ const _sfc_main = {
     getNotice();
     getClassify();
     const goPreview = () => {
-      common_vendor.index.navigateTo({
-        url: "/pages/preView/preView"
+      common_vendor.index.switchTab({
+        url: "/pages/classify/classify"
       });
     };
     return (_ctx, _cache) => {
@@ -108,5 +118,6 @@ const _sfc_main = {
   }
 };
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-1cf27b2a"]]);
+_sfc_main.__runtimeHooks = 6;
 wx.createPage(MiniProgramPage);
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/index/index.js.map

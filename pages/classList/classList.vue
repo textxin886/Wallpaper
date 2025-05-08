@@ -5,7 +5,7 @@
 			<uni-load-more status="loading"></uni-load-more>
 		</view>
 		<view class="content">
-			<navigator url="/pages/preView/preView" class="item" 
+			<navigator :url="`/pages/preView/preView?id=${item._id}`" class="item" 
 			v-for="item in classList" :key='item._id'>
 				<!-- navigator页面链接 -->
 			<image :src="item.smallPicurl" mode="aspectFill"></image>
@@ -55,10 +55,13 @@ const getClassList = async() => {
 	let res = await apiGetClassList(querParams)
 	classList.value = [...classList.value ,...res.data.data]//进行展开解构拼接
 	// 是否没有数据了
-	console.log(classList.value);
+	
 	if(res.data.data.length<querParams.pageSize){
 		noData.value = true
 	}
+	// 将数据存储到本地
+	uni.setStorageSync("storgClassList",classList.value)
+	// console.log(classList.value);
 }
 	
 

@@ -25,9 +25,16 @@ function apiGetClassList(data) {
     data
   });
 }
+function apiUserInfo(data = {}) {
+  return utils_request.request({
+    url: "/userInfo",
+    data
+  });
+}
 exports.apiGetBanner = apiGetBanner;
 exports.apiGetClassList = apiGetClassList;
 exports.apiGetNotice = apiGetNotice;
+exports.apiUserInfo = apiUserInfo;
 exports.apigetClassify = apigetClassify;
 exports.apigetDayRandom = apigetDayRandom;
 //# sourceMappingURL=../../.sourcemap/mp-weixin/api/apis.js.map
